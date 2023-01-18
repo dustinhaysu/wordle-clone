@@ -53,7 +53,7 @@ h1, h5, a  {
    }
 
    .keyboard-button {
-    font-size: 1rem;
+    font-size: 1vw;
     font-weight: 700;
     padding: 0.5rem;
     margin: 0 2px;
@@ -63,4 +63,8 @@ h1, h5, a  {
 
    .reset-button {
     color: red;
+   }
+
+   row {
+    width: 100%;
    }
