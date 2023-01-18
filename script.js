@@ -29,12 +29,18 @@ initBoard()
 //user input
 
 document.addEventListener("keyup", (e) => {
+    let pressedKey = String(e.key)
+
+    if (pressedKey === "new game") {
+        location.reload()
+        return
+    }
 
     if (guessesRemaining === 0) {
         return
     }
 
-    let pressedKey = String(e.key)
+    
     if (pressedKey === "Backspace" && nextLetter !== 0) {
         deleteLetter()
         return
@@ -44,6 +50,7 @@ document.addEventListener("keyup", (e) => {
         checkGuess()
         return
     }
+    
 
     let found = pressedKey.match(/[a-z]/gi)
     if (!found || found.length > 1) {
@@ -142,6 +149,7 @@ function checkGuess () {
         toastr.success("You guessed right! Game over!")
         guessesRemaining = 0
         return
+        
     } else {
         guessesRemaining -= 1;
         currentGuess = [];

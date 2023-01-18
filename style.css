@@ -1,8 +1,17 @@
 
 
-h1 {
+h1, h5  {
     text-align: center;
    }
+
+a {
+    
+    text-decoration: none;
+    color: black;
+    background-color: red;
+    padding: 3px;
+    border: solid 2px gray
+}
 
    #game-board {
     display: flex;
@@ -57,4 +66,8 @@ h1 {
     margin: 0 2px;
     cursor: pointer;
     text-transform: uppercase;
+   }
+
+   .reset-button {
+    color: red;
    }
