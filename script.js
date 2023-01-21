@@ -140,13 +140,13 @@ function checkGuess () {
     }   
     //  loop arrays letters and letterColors through async method setTimeout()
     for(let j = 0; j<5; j++){
-        let box = row.children[j]//change 2
-            let delay = 250 * j // change 4 delete i
+        let box = row.children[j]
+            let delay = 250 * j 
             setTimeout(()=> {
                 //flip box
                 animateCSS(box, 'flipInX')
                 //shade box
-                box.style.backgroundColor = letterColors[j] // change 3
+                box.style.backgroundColor = letterColors[j] 
                 shadeKeyBoard(letters[j], letterColors[j])
         }, delay)
     }
