@@ -134,7 +134,8 @@ function checkGuess () {
     for(let k = 0; k<5; k++){
         if(rightGuess.includes(currentGuess[k]) && rightGuess[k] !== '#' ){
             letterColors[k] = 'yellow'
-            rightGuess[k] = '#'
+            let x = rightGuess.indexOf(currentGuess[k])
+            rightGuess[x] = '#'
         } 
     }   
     //  loop arrays letters and letterColors through async method setTimeout()
