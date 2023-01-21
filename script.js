@@ -132,7 +132,7 @@ function checkGuess () {
 
     //anything left over should be an indirect match and once match is found rightGuess is reassigned to '#' to avoid further matching 
     for(let k = 0; k<5; k++){
-        if(rightGuess.includes(currentGuess[k]) && rightGuess[k] !== '#' ){
+        if(rightGuess.includes(currentGuess[k]) && letterColors[k] !== 'green' ){
             letterColors[k] = 'yellow'
             let x = rightGuess.indexOf(currentGuess[k])
             rightGuess[x] = '#'
