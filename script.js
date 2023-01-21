@@ -90,6 +90,9 @@ function deleteLetter () {
 }
 
 // checkGuess function
+// changed from original design to create a letterColors array and letters array
+// after the arrays are built we loop though animation and timeOut to score currentGuess array
+// see ====original code=== for differences
 
 function checkGuess () {
     let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
@@ -109,41 +112,44 @@ function checkGuess () {
         toastr.error("Word not in list!")
         return
     }
+// changed variables to arrays
+    let letterColors = []  
+    let letters = []
 
-    
+    //set backgroung color on all currentGuess elements to gray
+    currentGuess.forEach((__, index )=>letterColors[index] = 'gray' )
+
+    //push currentGuess array to letters array
+    // find all direct matches and color green
+    // change right guess array to '#' to avoid further matching
     for (let i = 0; i < 5; i++) {
-        let letterColor = ''
-        let box = row.children[i]
-        let letter = currentGuess[i]
-        
-        let letterPosition = rightGuess.indexOf(currentGuess[i])
-        // is letter in the correct guess
-        if (letterPosition === -1) {
-            letterColor = 'grey'
-        } else {
-            // now, letter is definitely in word
-            // if letter index and right guess index are the same
-            // letter is in the right position 
-            if (currentGuess[i] === rightGuess[i]) {
-                // shade green 
-                letterColor = 'green'
-            } else {
-                // shade box yellow
-                letterColor = 'yellow'
-            }
+        letters.push(currentGuess[i])
+        if(rightGuess[i] === currentGuess[i]){
+            letterColors[i] = 'green'
+            rightGuess[i] = '#'
+        } 
+    }
 
-            rightGuess[letterPosition] = "#"
-        }
-
-        let delay = 250 * i
-        setTimeout(()=> {
-            //flip box
-            animateCSS(box, 'flipInX')
-            //shade box
-            box.style.backgroundColor = letterColor
-            shadeKeyBoard(letter, letterColor)
+    //anything left over should be an indirect match and once match is found rightGuess is reassigned to '#' to avoid further matching 
+    for(let k = 0; k<5; k++){
+        if(rightGuess.includes(currentGuess[k]) && rightGuess[k] !== '#' ){
+            letterColors[k] = 'yellow'
+            rightGuess[k] = '#'
+        } 
+    }   
+    //  loop arrays letters and letterColors through async method setTimeout()
+    for(let j = 0; j<5; j++){
+        let box = row.children[j]//change 2
+            let delay = 250 * j // change 4 delete i
+            setTimeout(()=> {
+                //flip box
+                animateCSS(box, 'flipInX')
+                //shade box
+                box.style.backgroundColor = letterColors[j] // change 3
+                shadeKeyBoard(letters[j], letterColors[j])
         }, delay)
     }
+
 
     if (guessString === rightGuessString) {
         toastr.success("You guessed right! Game over!")
@@ -161,6 +167,82 @@ function checkGuess () {
         }
     }
 }
+
+
+
+//==================================original code==========================================================
+// function checkGuess () {
+//     let row = document.getElementsByClassName("letter-row")[6 - guessesRemaining]
+//     let guessString = ''
+//     let rightGuess = Array.from(rightGuessString)
+
+//     for (const val of currentGuess) {
+//         guessString += val
+//     }
+
+//     if (guessString.length != 5) {
+//         toastr.error("Not enough letters!")
+//         return
+//     }
+
+//     if (!WORDS.includes(guessString)) {
+//         toastr.error("Word not in list!")
+//         return
+//     }
+
+    
+//     for (let i = 0; i < 5; i++) {
+//         let letterColor = ''
+//         let box = row.children[i]
+//         let letter = currentGuess[i]
+        
+//         let letterPosition = rightGuess.indexOf(currentGuess[i])
+//         // is letter in the correct guess
+//         if (letterPosition === -1) {
+//             letterColor = 'grey'
+//         } else {
+//             // now, letter is definitely in word
+//             // if letter index and right guess index are the same
+//             // letter is in the right position 
+//             if (currentGuess[i] === rightGuess[i]) {
+//                 // shade green 
+//                 letterColor = 'green'
+//             } 
+//             if (rightGuess.includes(currentGuess[i]) && currentGuess[i] !== rightGuess[i]){
+//                 // shade box yellow
+//                 letterColor = 'yellow'
+//             }
+
+//             //rightGuess[letterPosition] = "#"
+//         }
+
+//         let delay = 250 * i
+//         setTimeout(()=> {
+//             //flip box
+//             animateCSS(box, 'flipInX')
+//             //shade box
+//             box.style.backgroundColor = letterColor
+//             shadeKeyBoard(letter, letterColor)
+//         }, delay)
+//     }
+
+//     if (guessString === rightGuessString) {
+//         toastr.success("You guessed right! Game over!")
+//         guessesRemaining = 0
+//         return
+        
+//     } else {
+//         guessesRemaining -= 1;
+//         currentGuess = [];
+//         nextLetter = 0;
+
+//         if (guessesRemaining === 0) {
+//             toastr.error("You've run out of guesses! Game over!")
+//             toastr.info(`The right word was: "${rightGuessString}"`)
+//         }
+//     }
+// }
+//====================================original code==================================================
 
 // shadeKeyboard function
 
